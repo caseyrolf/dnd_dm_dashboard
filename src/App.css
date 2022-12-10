@@ -1,0 +1,112 @@
+body {
+  background-color: #282c34;
+}
+
+.App {
+  text-align: center;
+  height:100%;
+}
+
+.App-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.dice-button {
+  width: 100px;
+  height: 100px;
+  margin-left: 25px;
+  margin-right: 25px;
+  font-size: 30px;
+}
+
+.dice-result {
+  color: white;
+  font-size: 40px;
+  display: inline-block;
+  margin-left: 25px;
+  margin-right: 25px;
+  width: 100px;
+}
+
+.dice-icon {
+  width: 50px;
+}
+
+.dice-result-container {
+  margin-top: 50px;
+}
+
+.player-card {
+  border: 1px solid white;
+  width: auto;
+  display: inline-block;
+  color: white;
+}
+
+.name-input {
+  font-size: 30px;
+  text-align: center;
+  background: none;
+  border: none;
+  color: white;
+}
+
+.level-input {
+  font-size: 16px;
+  text-align: center;
+  background: none;
+  border: none;
+  color: white;
+  width:40px;
+}
+
+.string-input {
+  font-size: 16px;
+  text-align: center;
+  background: none;
+  border: none;
+  color: white;
+  width:80px;
+}
+
+.player-ability-stats {
+  display: inline-block;
+  margin-left: 10px;
+  font-size: 19px;
+}
+
+.player-ability-stats > table, td {
+  border-collapse: collapse;
+  border: 1px solid white;
+}
+
+.player-active-stats input {
+  width: 50px;
+  height: 50px;
+  float: right;
+  font-size: 25px;
+  text-align: center;
+}
+
+.player-active-stats label {
+  text-align: left;
+  width: 150px;
+  float:left;
+  margin-left: 20%;
+}
+
+.stat-input {
+  background: none;
+  width: 50px;
+  font-size: 18px;
+  color: white;
+}
+
+.hp-max {
+  font-size: 25px;
+  margin-left: 5px;
+}
