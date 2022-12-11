@@ -3,21 +3,14 @@ import PlayerCard from './PlayerCard.js';
 import {retrieveCharacterList, createCharacter} from '../dataRetriever.js';
 
 class PlayerCardList extends React.Component {
+    let 
+    
     constructor(props) {
         super(props);
         this.state = {
-            characterList: []
-        };
+            characterList: this.props.characterList
+        }     
     }
-
-    componentDidMount() {
-        retrieveCharacterList().then((characterData) => {
-            this.setState({
-                characterList: characterData
-            });
-        });
-    };
-
     addCharacter = () => {
         let newCharacter = {
             name: "",
@@ -65,16 +58,29 @@ class PlayerCardList extends React.Component {
     removeCharacter = (id) => {
         this.setState({
             characterList: this.state.characterList.filter(character => character._id !== id)
+        }, () => {
+            this.props.updateParentCharacterList(this.characterList);
         });
+    }
+
+    updateCharacter = (updatedCharacter) => {
+        let newCharacterList = this.state.characterList.map(character => {
+            if (character._id === updatedCharacter._id) {
+                return updatedCharacter;
+            }
+            return character;
+        });
+        this.setState({characterList: newCharacterList});
+        this.props.updateParentCharacterList(newCharacterList);
     }
 
     render() {
         let playerCardList = this.state.characterList.map((character, index)=>{
-            return <PlayerCard key={character._id} {...character} removeCharacter={this.removeCharacter}/>;
+            return <PlayerCard key={character._id} {...character} removeCharacter={this.removeCharacter} updateParentCharacter={this.updateCharacter} />;
         });
         return (
             <div>
-                <button onClick={this.addCharacter}>Add Character</button>
+                <button className="add-button" onClick={this.addCharacter}>Add Character</button>
                 {playerCardList}
             </div>
         );

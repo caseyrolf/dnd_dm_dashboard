@@ -33,6 +33,7 @@ class PlayerCard extends React.Component {
         this.setState({
             [name]: {val: value, mod: this.calculateMod(value)}
         }, () =>{
+            this.props.updateParentCharacter({_id: this.props._id, ...this.state});
             saveCharacter(this.props._id, this.buildCharacterObj());
         });
         //save to db
@@ -42,6 +43,7 @@ class PlayerCard extends React.Component {
         this.setState({
             hp: {...this.state.hp, [name]: value}
         }, () =>{
+            this.props.updateParentCharacter({_id: this.props._id, ...this.state});
             saveCharacter(this.props._id, this.buildCharacterObj());
         });
         //save to db
@@ -51,6 +53,7 @@ class PlayerCard extends React.Component {
         this.setState({
             [name]: value
         }, () =>{
+            this.props.updateParentCharacter({_id: this.props._id, ...this.state});
             saveCharacter(this.props._id, this.buildCharacterObj());
         });
     }

@@ -16,15 +16,14 @@ body {
 }
 
 .dice-button {
-  width: 100px;
-  height: 100px;
+  width: 60px;
+  height: 60px;
   margin-left: 25px;
   margin-right: 25px;
-  font-size: 30px;
+  font-size: 20px;
 }
 
 .dice-result {
-  color: white;
   font-size: 40px;
   display: inline-block;
   margin-left: 25px;
@@ -41,10 +40,12 @@ body {
 }
 
 .player-card {
-  border: 1px solid white;
+  border: 1px solid black;
   width: auto;
   display: inline-block;
-  color: white;
+  background-color: rgb(175, 175, 175);
+  margin-left: 10px;
+  margin-right: 10px;
 }
 
 .name-input {
@@ -52,7 +53,6 @@ body {
   text-align: center;
   background: none;
   border: none;
-  color: white;
 }
 
 .level-input {
@@ -60,7 +60,6 @@ body {
   text-align: center;
   background: none;
   border: none;
-  color: white;
   width:40px;
 }
 
@@ -69,7 +68,6 @@ body {
   text-align: center;
   background: none;
   border: none;
-  color: white;
   width:80px;
 }
 
@@ -81,15 +79,16 @@ body {
 
 .player-ability-stats > table, td {
   border-collapse: collapse;
-  border: 1px solid white;
 }
 
 .player-active-stats input {
   width: 50px;
-  height: 50px;
+  height: 30px;
   float: right;
-  font-size: 25px;
+  font-size: 16px;
   text-align: center;
+  background: none;
+  margin-right: 10%;
 }
 
 .player-active-stats label {
@@ -103,10 +102,50 @@ body {
   background: none;
   width: 50px;
   font-size: 18px;
-  color: white;
 }
 
 .hp-max {
   font-size: 25px;
   margin-left: 5px;
+}
+
+.delete-button {
+  background: none;
+  border: none;
+  font-size: 25px;
+  cursor: pointer;
+}
+
+.add-button {
+  height:50px;
+  font-size: 25px;
+  display: block;
+  margin-left: auto;
+  margin-right:auto;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+.header-button {
+  height:50px;
+  font-size: 25px;
+  margin-left: auto;
+  margin-right:auto;
+  margin-top: 10px;
+  cursor: pointer;
+  border: none;
+}
+
+.header-button.active {
+  background-color: rgb(169, 242, 255);
+}
+
+.hidden { 
+  display: none;
+}
+
+.tab-container {
+  background-color: white;
+  padding-top: 20px;
+  padding-bottom: 100px;
 }
