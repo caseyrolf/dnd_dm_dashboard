@@ -59,7 +59,7 @@ class PlayerCardList extends React.Component {
         this.setState({
             characterList: this.state.characterList.filter(character => character._id !== id)
         }, () => {
-            this.props.updateParentCharacterList(this.state.characterList);
+            this.props.updateParentCharacterList(this.characterList);
         });
     }
 

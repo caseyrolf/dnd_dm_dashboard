@@ -1,4 +1,8 @@
 import React from 'react';
+import UpArrow from '../up-arrow.png';
+import RightArrow from '../right-arrow.png';
+import DownArrow from '../down-arrow.png';
+import { cloneDeep } from 'lodash';
 
 class CombatWidget extends React.Component {
     
@@ -24,7 +28,7 @@ class CombatWidget extends React.Component {
     }
 
     generateCombatOrder() {
-        let characterList = this.props.characterList;
+        let characterList = cloneDeep(this.props.characterList);
         characterList.sort((a,b) => parseInt(b.init) - parseInt(a.init));
         let combatOrder = characterList.map((character) => character.name);
         return combatOrder;
@@ -37,13 +41,33 @@ class CombatWidget extends React.Component {
         a.every((val, index) => val === b[index]);
     }
 
+    changeTurn(orderShift) {
+        let newTurnIdx = this.state.currentTurnIdx + orderShift;
+        if(newTurnIdx < 0) {
+            newTurnIdx = this.state.combatOrder.length-1;
+        } else if (newTurnIdx >= this.state.combatOrder.length) {
+            newTurnIdx = 0;
+        }
+        this.setState({currentTurnIdx: newTurnIdx});
+    }
+
     render() {
         let orderRows = this.state.combatOrder.map((name, index)=>{
-            return <tr key={index}><td>{name}</td></tr>;
+            return (
+                <tr key={index}>
+                    <td className="current-turn-column">{this.state.currentTurnIdx === index && <img className="right-arrow" src={RightArrow} />}</td>
+                    <td className="combat-name-column">{name}</td>
+                </tr>
+            );
         });
         return (
             <div>
-                <table>
+                <h2>Combat Order</h2>
+                <div className="combat-change-turn-container">
+                    <img className="up-arrow" src={UpArrow} onClick={() => {this.changeTurn(-1)}} />
+                    <img className="down-arrow" src={DownArrow} onClick={() => {this.changeTurn(1)}} />
+                </div>
+                <table className='combat-order-table'>
                     <tbody>
                         {orderRows}
                     </tbody>

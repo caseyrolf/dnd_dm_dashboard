@@ -149,3 +149,33 @@ body {
   padding-top: 20px;
   padding-bottom: 100px;
 }
+
+.up-arrow, .down-arrow, .right-arrow {
+  width: 50px;
+  height: 50px;
+  display: block;
+}
+
+.up-arrow, .down-arrow {
+  cursor: pointer;
+  margin-bottom: 20px;
+  border: 1px solid black;
+}
+
+.combat-change-turn-container {
+  display: inline-block;
+}
+
+.combat-order-table {
+  display: inline-block;
+  font-size: 30px;
+  margin-left: 20px;
+}
+
+.combat-order-table td {
+  padding:5px;
+}
+
+.combat-name-column {
+  height: 60px;
+}

@@ -80,6 +80,7 @@ class PlayerCard extends React.Component {
 
     deleteCharacterCard = () => {
         deleteCharacter(this.props._id).then(() => {
+            console.log("character deleted");
             this.props.removeCharacter(this.props._id);
         });
     }
@@ -88,14 +89,14 @@ class PlayerCard extends React.Component {
         return (
             <div className='player-card'>
                 <div className='player-name'>
-                    <input className="name-input" type="text" placeholder="Name" onChange={this.handleSimpleStatChange} value={this.state.name} name="name"/>
+                    <input className="name-input" type="text" onChange={this.handleSimpleStatChange} value={this.state.name} name="name"/>
                     <button className='delete-button' onClick={this.deleteCharacterCard}>X</button>
                 </div>
                 <div className='player-bio'>
                     Lv <input className="level-input" type="number" onChange={this.handleSimpleStatChange} value={this.state.level} name="level"/> 
-                    <input type="text" className="string-input" placeholder="Gender" name="gender" onChange={this.handleSimpleStatChange} value={this.state.gender} /> 
-                    <input type="text" className="string-input" placeholder="Race" name="race" onChange={this.handleSimpleStatChange} value={this.state.race} /> 
-                    <input type="text" className="string-input" placeholder="Class" name="class" onChange={this.handleSimpleStatChange} value={this.state.class} />
+                    <input type="text" className="string-input" name="gender" onChange={this.handleSimpleStatChange} value={this.state.gender} /> 
+                    <input type="text" className="string-input" name="race" onChange={this.handleSimpleStatChange} value={this.state.race} /> 
+                    <input type="text" className="string-input" name="class" onChange={this.handleSimpleStatChange} value={this.state.class} />
                 </div>
                 <img src={CharacterImage} alt="Character" />
                 <div className='player-ability-stats'>
