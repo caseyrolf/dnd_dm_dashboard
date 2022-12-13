@@ -1,8 +1,8 @@
 import React from 'react';
 import CharacterImage from '../CharacterImage.png';
-import {saveCharacter, deleteCharacter} from '../dataRetriever.js';
+import {saveEnemy, deleteEnemy} from '../dataRetriever.js';
 
-class PlayerCard extends React.Component {
+class EnemyCard extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -33,8 +33,8 @@ class PlayerCard extends React.Component {
         this.setState({
             [name]: {val: value, mod: this.calculateMod(value)}
         }, () =>{
-            this.props.updateParentCharacter({_id: this.props._id, ...this.state});
-            saveCharacter(this.props._id, this.buildCharacterObj());
+            this.props.updateParentEnemy({_id: this.props._id, ...this.state});
+            saveEnemy(this.props._id, this.buildEnemyObj());
         });
         //save to db
     }
@@ -43,8 +43,8 @@ class PlayerCard extends React.Component {
         this.setState({
             hp: {...this.state.hp, [name]: value}
         }, () =>{
-            this.props.updateParentCharacter({_id: this.props._id, ...this.state});
-            saveCharacter(this.props._id, this.buildCharacterObj());
+            this.props.updateParentEnemy({_id: this.props._id, ...this.state});
+            saveEnemy(this.props._id, this.buildEnemyObj());
         });
         //save to db
     }
@@ -53,13 +53,13 @@ class PlayerCard extends React.Component {
         this.setState({
             [name]: value
         }, () =>{
-            this.props.updateParentCharacter({_id: this.props._id, ...this.state});
-            saveCharacter(this.props._id, this.buildCharacterObj());
+            this.props.updateParentEnemy({_id: this.props._id, ...this.state});
+            saveEnemy(this.props._id, this.buildEnemyObj());
         });
     }
 
-    buildCharacterObj = () => {
-        let character = {
+    buildEnemyObj = () => {
+        let enemy = {
             name: this.state.name,
             level: this.state.level,
             gender: this.state.gender,
@@ -75,13 +75,12 @@ class PlayerCard extends React.Component {
             hp_max: this.state.hp.max,
             ac: this.state.ac
         }
-        return character;
+        return enemy;
     }
 
-    deleteCharacterCard = () => {
-        deleteCharacter(this.props._id).then(() => {
-            console.log("character deleted");
-            this.props.removeCharacter(this.props._id);
+    deleteEnemyCard = () => {
+        deleteEnemy(this.props._id).then(() => {
+            this.props.removeEnemy(this.props._id);
         });
     }
 
@@ -90,7 +89,7 @@ class PlayerCard extends React.Component {
             <div className='player-card'>
                 <div className='player-name'>
                     <input className="name-input" type="text" onChange={this.handleSimpleStatChange} value={this.state.name} name="name"/>
-                    <button className='delete-button' onClick={this.deleteCharacterCard}>X</button>
+                    <button className='delete-button' onClick={this.deleteEnemyCard}>X</button>
                 </div>
                 <div className='player-bio'>
                     Lv <input className="level-input" type="number" onChange={this.handleSimpleStatChange} value={this.state.level} name="level"/> 
@@ -98,7 +97,7 @@ class PlayerCard extends React.Component {
                     <input type="text" className="string-input" name="race" onChange={this.handleSimpleStatChange} value={this.state.race} /> 
                     <input type="text" className="string-input" name="class" onChange={this.handleSimpleStatChange} value={this.state.class} />
                 </div>
-                <img src={CharacterImage} alt="Character" />
+                <img src={CharacterImage} alt="Enemy" />
                 <div className='player-ability-stats'>
                     <table>
                         <tbody>
@@ -161,4 +160,4 @@ class PlayerCard extends React.Component {
     }
 }
 
-export default PlayerCard;
+export default EnemyCard;

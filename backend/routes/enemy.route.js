@@ -2,12 +2,12 @@ let mongoose = require("mongoose"),
 express = require("express"),
 router = express.Router();
 
-// Character Model
-let characterSchema = require("../models/Character");
+// Enemy Model
+let enemySchema = require("../models/Enemy");
 
-// CREATE Character
-router.post("/create-character", (req, res, next) => {
-characterSchema.create(req.body, (error, data) => {
+// CREATE Enemy
+router.post("/create-enemy", (req, res, next) => {
+enemySchema.create(req.body, (error, data) => {
 	if (error) {
 	return next(error);
 	} else {
@@ -17,9 +17,9 @@ characterSchema.create(req.body, (error, data) => {
 });
 });
 
-// READ Characters
+// READ Enemy
 router.get("/", (req, res) => {
-characterSchema.find((error, data) => {
+enemySchema.find((error, data) => {
 	if (error) {
 	return next(error);
 	} else {
@@ -28,12 +28,12 @@ characterSchema.find((error, data) => {
 });
 });
 
-// UPDATE Character
+// UPDATE Enemy
 router
-.route("/update-character/:id")
-// Get Single Character
+.route("/update-enemy/:id")
+// Get Single Enemy
 .get((req, res) => {
-	characterSchema.findById(
+	enemySchema.findById(
 		req.params.id, (error, data) => {
 	if (error) {
 		return next(error);
@@ -43,9 +43,9 @@ router
 	});
 })
 
-// Update Character Data
+// Update Enemy Data
 .put((req, res, next) => {
-	characterSchema.findByIdAndUpdate(
+	enemySchema.findByIdAndUpdate(
 	req.params.id,
 	{
 		$set: req.body,
@@ -53,19 +53,17 @@ router
 	(error, data) => {
 		if (error) {
 		return next(error);
-		console.log(error);
 		} else {
 		res.json(data);
-		console.log("Character updated successfully !");
 		}
 	}
 	);
 });
 
-// Delete Character
-router.delete("/delete-character/:id",
+// Delete Enemy
+router.delete("/delete-enemy/:id",
 (req, res, next) => {
-characterSchema.findByIdAndRemove(
+enemySchema.findByIdAndRemove(
 	req.params.id, (error, data) => {
 	if (error) {
 	return next(error);

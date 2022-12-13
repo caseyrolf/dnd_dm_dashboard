@@ -178,4 +178,20 @@ body {
 
 .combat-name-column {
   height: 60px;
+  text-align: left;
+}
+
+.combat-notes-column input {
+  width: 300px;
+  border: 1px solid lightgray;
+}
+
+.combat-timer-button {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.combat-timer {
+  font-size: 20px;
 }

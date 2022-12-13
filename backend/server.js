@@ -5,7 +5,8 @@ let bodyParser = require('body-parser');
 let dbConfig = require('./database/db');
 
 // Express Route
-const characterRoute = require('../backend/routes/character.route')
+const characterRoute = require('../backend/routes/character.route');
+const enemyRoute = require('../backend/routes/enemy.route')
 
 // Connecting MongoDB Database
 mongoose.Promise = global.Promise;
@@ -24,6 +25,7 @@ extended: true
 }));
 app.use(cors());
 app.use('/characters', characterRoute)
+app.use('/enemies', enemyRoute)
 
 
 // PORT

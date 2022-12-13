@@ -3,22 +3,30 @@ import './App.css';
 import DiceWidget from './widgets/DiceWidget.js';
 import CombatWidget from './widgets/CombatWidget.js';
 import PlayerCardList from './widgets/PlayerCardList';
-import {retrieveCharacterList} from './dataRetriever.js';
+import EnemyCardList from './widgets/EnemyCardList';
+import {retrieveCharacterList, retrieveEnemyList} from './dataRetriever.js';
 
 function App() {
 
   const [activeTab, setActiveTab] = React.useState("Characters");
   const [appData, setAppData] = React.useState({
     hasDataRetrieved: false,
-    characterList: []
+    characterList: [],
+    enemyList: []
   });
 
   useEffect(() => {
     retrieveCharacterList().then((characterData) => {
       setAppData({
-        characterList: characterData,
-        hasDataRetrieved: true
+        characterList: characterData        
       });
+      retrieveEnemyList().then((enemyData) => {
+        setAppData(current => ({
+          ...current,
+          enemyList: enemyData,
+          hasDataRetrieved: true        
+        }));
+      })
     });
   }, []);
 
@@ -26,6 +34,13 @@ function App() {
     setAppData(current => ({
       ...current,
        characterList: newCharacterList
+    }));
+  }
+
+  const updateEnemyList = (newEnemyList) => {
+    setAppData(current => ({
+      ...current,
+       enemyList: newEnemyList
     }));
   }
   
@@ -43,8 +58,11 @@ function App() {
         <div className={`${activeTab==="Characters" ? "" : "hidden"}`}>
           {appData.hasDataRetrieved && <PlayerCardList characterList={appData.characterList} updateParentCharacterList={updateCharacterList}/>}
         </div>
+        <div className={`${activeTab==="Enemies" ? "" : "hidden"}`}>
+          {appData.hasDataRetrieved && <EnemyCardList enemyList={appData.enemyList} updateParentEnemyList={updateEnemyList}/>}
+        </div>
         <div className={`${activeTab==="Combat" ? "" : "hidden"}`}>
-          {appData.hasDataRetrieved && <CombatWidget characterList={appData.characterList} />}
+          {appData.hasDataRetrieved && <CombatWidget characterList={appData.characterList} enemyList={appData.enemyList} />}
         </div>
         <div className={`${activeTab==="Dice" ? "" : "hidden"}`}>
           <DiceWidget />

@@ -1,18 +1,18 @@
 import React from 'react';
-import PlayerCard from './PlayerCard.js';
-import {createCharacter} from '../dataRetriever.js';
+import EnemyCard from './EnemyCard.js';
+import {createEnemy} from '../dataRetriever.js';
 
-class PlayerCardList extends React.Component {
+class EnemyCardList extends React.Component {
     let 
     
     constructor(props) {
         super(props);
         this.state = {
-            characterList: this.props.characterList
+            enemyList: this.props.enemyList
         }     
     }
-    addCharacter = () => {
-        let newCharacter = {
+    addEnemy = () => {
+        let newEnemy = {
             name: "",
             level: 0,
             gender: "",
@@ -28,12 +28,11 @@ class PlayerCardList extends React.Component {
             hp_max: 0,
             ac: 0
         };
-        createCharacter(newCharacter).then((characterData) => {
-            console.log(characterData);
+        createEnemy(newEnemy).then((enemyData) => {
             this.setState(currentState => ({
-                characterList: [...currentState.characterList,
+                enemyList: [...currentState.enemyList,
                     {
-                        _id: characterData._id,
+                        _id: enemyData._id,
                         name: "",
                         level: 0,
                         gender: "",
@@ -55,36 +54,36 @@ class PlayerCardList extends React.Component {
         
     }
 
-    removeCharacter = (id) => {
+    removeEnemy = (id) => {
         this.setState({
-            characterList: this.state.characterList.filter(character => character._id !== id)
+            enemyList: this.state.enemyList.filter(enemy => enemy._id !== id)
         }, () => {
-            this.props.updateParentCharacterList(this.characterList);
+            this.props.updateParentEnemyList(this.enemyList);
         });
     }
 
-    updateCharacter = (updatedCharacter) => {
-        let newCharacterList = this.state.characterList.map(character => {
-            if (character._id === updatedCharacter._id) {
-                return updatedCharacter;
+    updateEnemy = (updatedEnemy) => {
+        let newEnemyList = this.state.enemyList.map(enemy => {
+            if (enemy._id === updatedEnemy._id) {
+                return updatedEnemy;
             }
-            return character;
+            return enemy;
         });
-        this.setState({characterList: newCharacterList});
-        this.props.updateParentCharacterList(newCharacterList);
+        this.setState({enemyList: newEnemyList});
+        this.props.updateParentEnemyList(newEnemyList);
     }
 
     render() {
-        let playerCardList = this.state.characterList.map((character, index)=>{
-            return <PlayerCard key={character._id} {...character} removeCharacter={this.removeCharacter} updateParentCharacter={this.updateCharacter} />;
+        let enemyCardList = this.state.enemyList.map((enemy, index)=>{
+            return <EnemyCard key={enemy._id} {...enemy} removeEnemy={this.removeEnemy} updateParentEnemy={this.updateEnemy} />;
         });
         return (
             <div>
-                <button className="add-button" onClick={this.addCharacter}>Add Character</button>
-                {playerCardList}
+                <button className="add-button" onClick={this.addEnemy}>Add Enemy</button>
+                {enemyCardList}
             </div>
         );
     }
 }
 
-export default PlayerCardList;
+export default EnemyCardList;
