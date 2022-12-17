@@ -114,6 +114,7 @@ body {
   border: none;
   font-size: 25px;
   cursor: pointer;
+  float: right;
 }
 
 .add-button {
@@ -194,4 +195,23 @@ body {
 
 .combat-timer {
   font-size: 20px;
+}
+
+.npc-bio {
+  display: inline-block;
+  text-align: left;
+  padding-left: 10px;
+}
+
+.npc-bio .long-text-input{
+  background: none;
+  border: none;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 16px;
+}
+
+.notes-label {
+  display: inline-block;
+  vertical-align: top;
+  margin-right: 5px;
 }

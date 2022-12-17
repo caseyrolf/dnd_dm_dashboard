@@ -1,53 +1,30 @@
 import React from 'react';
-import PlayerCard from './PlayerCard.js';
-import {createCharacter} from '../dataRetriever.js';
+import NPCCard from './NPCCard.js';
+import {createNPC} from '../dataRetriever.js';
 
-class PlayerCardList extends React.Component {
+class NPCCardList extends React.Component {
     let 
     
     constructor(props) {
         super(props);
         this.state = {
-            characterList: this.props.characterList
+            NPCList: this.props.NPCList
         }     
     }
-    addCharacter = () => {
-        let newCharacter = {
+    addNPC = () => {
+        let newNPC = {
             name: "",
-            level: 0,
-            gender: "",
-            race: "",
-            class: "",
-            strength: 0,
-            dexterity: 0,
-            constitution: 0,
-            intelligence: 0,
-            wisdom: 0,
-            charisma: 0,
-            hp_current: 0,
-            hp_max: 0,
-            ac: 0
+            location: "",
+            notes: ""
         };
-        createCharacter(newCharacter).then((characterData) => {
-            console.log(characterData);
+        createNPC(newNPC).then((NPCData) => {
             this.setState(currentState => ({
-                characterList: [...currentState.characterList,
+                NPCList: [...currentState.NPCList,
                     {
-                        _id: characterData._id,
+                        _id: NPCData._id,
                         name: "",
-                        level: 0,
-                        gender: "",
-                        race: "",
-                        class: "",
-                        strength: 0,
-                        dexterity: 0,
-                        constitution: 0,
-                        intelligence: 0,
-                        wisdom: 0,
-                        charisma: 0,
-                        hp_current: 0,
-                        hp_max: 0,
-                        ac: 0
+                        location: "",
+                        notes: ""
                     }
                 ]
             }));
@@ -55,36 +32,36 @@ class PlayerCardList extends React.Component {
         
     }
 
-    removeCharacter = (id) => {
+    removeNPC = (id) => {
         this.setState({
-            characterList: this.state.characterList.filter(character => character._id !== id)
+            NPCList: this.state.NPCList.filter(NPC => NPC._id !== id)
         }, () => {
-            this.props.updateParentCharacterList(this.characterList);
+            this.props.updateParentNPCList(this.NPCList);
         });
     }
 
-    updateCharacter = (updatedCharacter) => {
-        let newCharacterList = this.state.characterList.map(character => {
-            if (character._id === updatedCharacter._id) {
-                return updatedCharacter;
+    updateNPC = (updatedNPC) => {
+        let newNPCList = this.state.NPCList.map(NPC => {
+            if (NPC._id === updatedNPC._id) {
+                return updatedNPC;
             }
-            return character;
+            return NPC;
         });
-        this.setState({characterList: newCharacterList});
-        this.props.updateParentCharacterList(newCharacterList);
+        this.setState({NPCList: newNPCList});
+        this.props.updateParentNPCList(newNPCList);
     }
 
     render() {
-        let playerCardList = this.state.characterList.map((character, index)=>{
-            return <PlayerCard key={character._id} {...character} removeCharacter={this.removeCharacter} updateParentCharacter={this.updateCharacter} />;
+        let NPCCardList = this.state.NPCList.map((NPC, index)=>{
+            return <NPCCard key={NPC._id} {...NPC} removeNPC={this.removeNPC} updateParentNPC={this.updateNPC} />;
         });
         return (
             <div>
-                <button className="add-button" onClick={this.addCharacter}>Add Character</button>
-                {playerCardList}
+                <button className="add-button" onClick={this.addNPC}>Add NPC</button>
+                {NPCCardList}
             </div>
         );
     }
 }
 
-export default PlayerCardList;
+export default NPCCardList;

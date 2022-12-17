@@ -4,7 +4,8 @@ import DiceWidget from './widgets/DiceWidget.js';
 import CombatWidget from './widgets/CombatWidget.js';
 import PlayerCardList from './widgets/PlayerCardList';
 import EnemyCardList from './widgets/EnemyCardList';
-import {retrieveCharacterList, retrieveEnemyList} from './dataRetriever.js';
+import NPCCardList from './widgets/NPCCardList';
+import {retrieveCharacterList, retrieveEnemyList, retrieveNPCList} from './dataRetriever.js';
 
 function App() {
 
@@ -12,7 +13,8 @@ function App() {
   const [appData, setAppData] = React.useState({
     hasDataRetrieved: false,
     characterList: [],
-    enemyList: []
+    enemyList: [],
+    NPCList: []
   });
 
   useEffect(() => {
@@ -23,10 +25,16 @@ function App() {
       retrieveEnemyList().then((enemyData) => {
         setAppData(current => ({
           ...current,
-          enemyList: enemyData,
-          hasDataRetrieved: true        
+          enemyList: enemyData        
         }));
-      })
+        retrieveNPCList().then((NPCData) => {
+          setAppData(current => ({
+            ...current,
+            NPCList: NPCData,
+            hasDataRetrieved: true        
+          }));
+        });
+      });
     });
   }, []);
 
@@ -41,6 +49,13 @@ function App() {
     setAppData(current => ({
       ...current,
        enemyList: newEnemyList
+    }));
+  }
+
+  const updateNPCList = (newNPCList) => {
+    setAppData(current => ({
+      ...current,
+       NPCList: newNPCList
     }));
   }
   
@@ -61,6 +76,9 @@ function App() {
         <div className={`${activeTab==="Enemies" ? "" : "hidden"}`}>
           {appData.hasDataRetrieved && <EnemyCardList enemyList={appData.enemyList} updateParentEnemyList={updateEnemyList}/>}
         </div>
+        <div className={`${activeTab==="NPCs" ? "" : "hidden"}`}>
+          {appData.hasDataRetrieved && <NPCCardList NPCList={appData.NPCList} updateParentNPCList={updateNPCList}/>}
+        </div>
         <div className={`${activeTab==="Combat" ? "" : "hidden"}`}>
           {appData.hasDataRetrieved && <CombatWidget characterList={appData.characterList} enemyList={appData.enemyList} />}
         </div>
@@ -68,7 +86,6 @@ function App() {
           <DiceWidget />
         </div>
       </div>
-  {/*<ActiveCard />*/}
     </div>
   );
 }

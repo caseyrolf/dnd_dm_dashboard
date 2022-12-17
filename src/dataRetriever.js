@@ -122,4 +122,68 @@ const deleteEnemy = (id) => {
     });
 };
 
-export {retrieveCharacterList, saveCharacter, createCharacter, deleteCharacter, retrieveEnemyList, saveEnemy, createEnemy, deleteEnemy};
+/*
+ NPC endpoints
+*/
+const retrieveNPCList = () => {
+	return new Promise((resolve, reject) => {
+        axios
+        .get("http://192.168.1.104:4000/npcs/")
+        .then(({ data }) => {
+            resolve(data);
+        })
+        .catch((error) => {
+            console.log(error);
+            reject();
+        });
+    });
+};
+
+const saveNPC = (id, enemyObj) => {
+	return new Promise((resolve, reject) => {
+        axios
+        .put("http://192.168.1.104:4000/npcs/update-npc/" + id,
+            enemyObj)
+        .then(({ data }) => {
+            resolve(data);
+            console.log(data);
+        })
+        .catch((error) => {
+            console.log(error);
+            reject();
+        });
+    });
+};
+
+const createNPC = (enemyObj) => {
+	return new Promise((resolve, reject) => {
+        axios
+        .post("http://192.168.1.104:4000/npcs/create-npc",
+            enemyObj)
+        .then(({ data }) => {
+            resolve(data);
+            console.log(data);
+        })
+        .catch((error) => {
+            console.log(error);
+            reject();
+        });
+    });
+};
+
+const deleteNPC = (id) => {
+	return new Promise((resolve, reject) => {
+        axios
+        .delete("http://192.168.1.104:4000/npc/delete-npc/" + id)
+        .then(({ data }) => {
+            resolve(data);
+            console.log(data);
+        })
+        .catch((error) => {
+            console.log(error);
+            reject();
+        });
+    });
+};
+
+export {retrieveCharacterList, saveCharacter, createCharacter, deleteCharacter, retrieveEnemyList, saveEnemy, createEnemy, deleteEnemy, retrieveNPCList, saveNPC, createNPC, deleteNPC};

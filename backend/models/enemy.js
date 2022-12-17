@@ -46,6 +46,6 @@ let enemySchema = new Schema({
   }
 }, {
     collection: 'enemies'
-  })
+  });
   
-module.exports = mongoose.model('Enemy', enemySchema)
+module.exports = mongoose.model('Enemy', enemySchema);

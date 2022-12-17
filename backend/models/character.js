@@ -46,6 +46,6 @@ let characterSchema = new Schema({
   }
 }, {
     collection: 'characters'
-  })
+  });
   
-module.exports = mongoose.model('Character', characterSchema)
+module.exports = mongoose.model('Character', characterSchema);
