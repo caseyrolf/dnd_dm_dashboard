@@ -215,3 +215,18 @@ body {
   vertical-align: top;
   margin-right: 5px;
 }
+
+.enemy-notes {
+  background: none;
+  border: none;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 16px;
+}
+
+.delete-quest-button {
+  background: none;
+  border: none;
+  font-size: 25px;
+  cursor: pointer;
+  vertical-align: top;
+}

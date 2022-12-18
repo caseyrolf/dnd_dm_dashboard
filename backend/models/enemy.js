@@ -43,6 +43,9 @@ let enemySchema = new Schema({
   },
   ac: {
     type: Number
+  },
+  notes: {
+    type: String
   }
 }, {
     collection: 'enemies'

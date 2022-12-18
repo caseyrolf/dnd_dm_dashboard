@@ -186,4 +186,68 @@ const deleteNPC = (id) => {
     });
 };
 
-export {retrieveCharacterList, saveCharacter, createCharacter, deleteCharacter, retrieveEnemyList, saveEnemy, createEnemy, deleteEnemy, retrieveNPCList, saveNPC, createNPC, deleteNPC};
+/*
+ Quest endpoints
+*/
+const retrieveQuestList = () => {
+	return new Promise((resolve, reject) => {
+        axios
+        .get("http://192.168.1.104:4000/quests/")
+        .then(({ data }) => {
+            resolve(data);
+        })
+        .catch((error) => {
+            console.log(error);
+            reject();
+        });
+    });
+};
+
+const saveQuest = (id, questObj) => {
+	return new Promise((resolve, reject) => {
+        axios
+        .put("http://192.168.1.104:4000/quests/update-quest/" + id,
+            questObj)
+        .then(({ data }) => {
+            resolve(data);
+            console.log(data);
+        })
+        .catch((error) => {
+            console.log(error);
+            reject();
+        });
+    });
+};
+
+const createQuest = (questObj) => {
+	return new Promise((resolve, reject) => {
+        axios
+        .post("http://192.168.1.104:4000/quests/create-quest",
+            questObj)
+        .then(({ data }) => {
+            resolve(data);
+            console.log(data);
+        })
+        .catch((error) => {
+            console.log(error);
+            reject();
+        });
+    });
+};
+
+const deleteQuest = (id) => {
+	return new Promise((resolve, reject) => {
+        axios
+        .delete("http://192.168.1.104:4000/quests/delete-quest/" + id)
+        .then(({ data }) => {
+            resolve(data);
+            console.log(data);
+        })
+        .catch((error) => {
+            console.log(error);
+            reject();
+        });
+    });
+};
+
+export {retrieveCharacterList, saveCharacter, createCharacter, deleteCharacter, retrieveEnemyList, saveEnemy, createEnemy, deleteEnemy, retrieveNPCList, saveNPC, createNPC, deleteNPC, retrieveQuestList, saveQuest, createQuest, deleteQuest};

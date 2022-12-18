@@ -3,7 +3,6 @@ import PlayerCard from './PlayerCard.js';
 import {createCharacter} from '../dataRetriever.js';
 
 class PlayerCardList extends React.Component {
-    let 
     
     constructor(props) {
         super(props);

@@ -26,7 +26,8 @@ class EnemyCardList extends React.Component {
             charisma: 0,
             hp_current: 0,
             hp_max: 0,
-            ac: 0
+            ac: 0,
+            notes: ""
         };
         createEnemy(newEnemy).then((enemyData) => {
             this.setState(currentState => ({
@@ -46,7 +47,8 @@ class EnemyCardList extends React.Component {
                         charisma: 0,
                         hp_current: 0,
                         hp_max: 0,
-                        ac: 0
+                        ac: 0,
+                        notes: ""
                     }
                 ]
             }));

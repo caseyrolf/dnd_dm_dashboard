@@ -5,7 +5,8 @@ import CombatWidget from './widgets/CombatWidget.js';
 import PlayerCardList from './widgets/PlayerCardList';
 import EnemyCardList from './widgets/EnemyCardList';
 import NPCCardList from './widgets/NPCCardList';
-import {retrieveCharacterList, retrieveEnemyList, retrieveNPCList} from './dataRetriever.js';
+import QuestTracker from "./widgets/QuestTracker";
+import {retrieveCharacterList, retrieveEnemyList, retrieveNPCList, retrieveQuestList} from './dataRetriever.js';
 
 function App() {
 
@@ -30,9 +31,15 @@ function App() {
         retrieveNPCList().then((NPCData) => {
           setAppData(current => ({
             ...current,
-            NPCList: NPCData,
-            hasDataRetrieved: true        
+            NPCList: NPCData     
           }));
+          retrieveQuestList().then((questData) => {
+            setAppData(current => ({
+              ...current,
+              questList: questData,
+              hasDataRetrieved: true        
+            }));
+          });
         });
       });
     });
@@ -68,6 +75,7 @@ function App() {
       <button className={`header-button ${activeTab==="Enemies" ? "active" : ""}`} onClick={() => setActiveTab("Enemies")}>Enemies</button>
       <button className={`header-button ${activeTab==="NPCs" ? "active" : ""}`} onClick={() => setActiveTab("NPCs")}>NPCs</button>
       <button className={`header-button ${activeTab==="Combat" ? "active" : ""}`} onClick={() => setActiveTab("Combat")}>Combat</button>
+      <button className={`header-button ${activeTab==="Quests" ? "active" : ""}`} onClick={() => setActiveTab("Quests")}>Quests</button>
       <button className={`header-button ${activeTab==="Dice" ? "active" : ""}`} onClick={() => setActiveTab("Dice")}>Dice Roll</button>
       <div className="tab-container">
         <div className={`${activeTab==="Characters" ? "" : "hidden"}`}>
@@ -81,6 +89,9 @@ function App() {
         </div>
         <div className={`${activeTab==="Combat" ? "" : "hidden"}`}>
           {appData.hasDataRetrieved && <CombatWidget characterList={appData.characterList} enemyList={appData.enemyList} />}
+        </div>
+        <div className={`${activeTab==="Quests" ? "" : "hidden"}`}>
+          {appData.hasDataRetrieved && <QuestTracker questList={appData.questList} />}
         </div>
         <div className={`${activeTab==="Dice" ? "" : "hidden"}`}>
           <DiceWidget />

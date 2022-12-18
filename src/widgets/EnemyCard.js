@@ -19,7 +19,8 @@ class EnemyCard extends React.Component {
             cha: {val: this.props.charisma, mod: this.calculateMod(this.props.charisma)},
             hp: {current: this.props.hp_current, max: this.props.hp_max},
             ac: this.props.ac,
-            init: 0
+            init: 0,
+            notes: this.props.notes
         };
     }
 
@@ -73,7 +74,8 @@ class EnemyCard extends React.Component {
             charisma: this.state.cha.val,
             hp_current: this.state.hp.current,
             hp_max: this.state.hp.max,
-            ac: this.state.ac
+            ac: this.state.ac,
+            notes: this.state.notes
         }
         return enemy;
     }
@@ -155,6 +157,7 @@ class EnemyCard extends React.Component {
                         </label>
                     </div>
                 </div>
+                <textarea className="enemy-notes" placeholder="Notes" rows="8" cols="30" value={this.state.notes} onChange={this.handleSimpleStatChange} name="notes" />
             </div>
         );
     }
