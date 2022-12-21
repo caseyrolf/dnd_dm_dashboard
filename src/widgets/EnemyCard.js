@@ -92,6 +92,7 @@ class EnemyCard extends React.Component {
                 <div className='player-name'>
                     <input className="name-input" type="text" onChange={this.handleSimpleStatChange} value={this.state.name} name="name"/>
                     <button className='delete-button' onClick={this.deleteEnemyCard}>X</button>
+                    <button className='delete-button' onClick={() => {this.props.duplicateEnemy(this.props._id)}} >Duplicate</button>
                 </div>
                 <div className='player-bio'>
                     Lv <input className="level-input" type="number" onChange={this.handleSimpleStatChange} value={this.state.level} name="level"/> 
