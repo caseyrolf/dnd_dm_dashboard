@@ -16,7 +16,6 @@ class PlayerCard extends React.Component {
             [name]: value
         }
         this.props.updateCharacter(characterObj);
-        //Update mod?
         saveCharacter(this.props.character._id, characterObj);
     }
 

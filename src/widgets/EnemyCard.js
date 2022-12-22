@@ -3,85 +3,25 @@ import CharacterImage from '../CharacterImage.png';
 import {saveEnemy, deleteEnemy} from '../dataRetriever.js';
 
 class EnemyCard extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            name: this.props.name,
-            gender: this.props.gender,
-            race: this.props.race,
-            class: this.props.class,
-            level: this.props.level,
-            str: {val: this.props.strength, mod: this.calculateMod(this.props.strength)},
-            dex: {val: this.props.dexterity, mod: this.calculateMod(this.props.dexterity)},
-            con: {val: this.props.constitution, mod: this.calculateMod(this.props.constitution)},
-            int: {val: this.props.intelligence, mod: this.calculateMod(this.props.intelligence)},
-            wis: {val: this.props.wisdom, mod: this.calculateMod(this.props.wisdom)},
-            cha: {val: this.props.charisma, mod: this.calculateMod(this.props.charisma)},
-            hp: {current: this.props.hp_current, max: this.props.hp_max},
-            ac: this.props.ac,
-            initiative: this.props.initiative,
-            notes: this.props.notes
-        };
-    }
-
+    
     calculateMod = (abilityVal) => {
         let modVal = Math.floor(abilityVal/2)-5;
         let modStr = (modVal > 0)? "+" + modVal : modVal;
         return modStr;
     }
 
-    handleAbilityChange = ({target: {name, value}}) => {
-        this.setState({
-            [name]: {val: value, mod: this.calculateMod(value)}
-        }, () =>{
-            this.props.updateParentEnemy({_id: this.props._id, ...this.state});
-            saveEnemy(this.props._id, this.buildEnemyObj());
-        });
-    }
-
-    handleHPChange = ({target: {name, value}}) => {
-        this.setState({
-            hp: {...this.state.hp, [name]: value}
-        }, () =>{
-            this.props.updateParentEnemy({_id: this.props._id, ...this.state});
-            saveEnemy(this.props._id, this.buildEnemyObj());
-        });
-    }
-
-    handleSimpleStatChange = ({target: {name, value}}) => {
-        this.setState({
+    updateEnemy = ({target: {name, value}}) => {
+        let enemyObj = {
+            ...this.props.enemy,
             [name]: value
-        }, () =>{
-            this.props.updateParentEnemy({_id: this.props._id, ...this.state});
-            saveEnemy(this.props._id, this.buildEnemyObj());
-        });
-    }
-
-    buildEnemyObj = () => {
-        let enemy = {
-            name: this.state.name,
-            level: this.state.level,
-            gender: this.state.gender,
-            race: this.state.race,
-            class: this.state.class,
-            strength: this.state.str.val,
-            dexterity: this.state.dex.val,
-            constitution: this.state.con.val,
-            intelligence: this.state.int.val,
-            wisdom: this.state.wis.val,
-            charisma: this.state.cha.val,
-            hp_current: this.state.hp.current,
-            hp_max: this.state.hp.max,
-            ac: this.state.ac,
-            initiative: this.state.initiative,
-            notes: this.state.notes
         }
-        return enemy;
+        this.props.updateEnemy(enemyObj);
+        saveEnemy(this.props.enemy._id, enemyObj);
     }
 
     deleteEnemyCard = () => {
-        deleteEnemy(this.props._id).then(() => {
-            this.props.removeEnemy(this.props._id);
+        deleteEnemy(this.props.enemy._id).then(() => {
+            this.props.removeEnemy(this.props.enemy._id);
         });
     }
 
@@ -89,15 +29,15 @@ class EnemyCard extends React.Component {
         return (
             <div className='player-card'>
                 <div className='player-name'>
-                    <input className="name-input" type="text" onChange={this.handleSimpleStatChange} value={this.state.name} name="name"/>
+                    <input className="name-input" type="text" onChange={this.updateEnemy} value={this.props.enemy.name} name="name"/>
                     <button className='delete-button' onClick={this.deleteEnemyCard}>X</button>
-                    <button className='delete-button' onClick={() => {this.props.duplicateEnemy(this.props._id)}} >Duplicate</button>
+                    <button className='delete-button' onClick={() => {this.props.duplicateEnemy(this.props.enemy._id)}} >Duplicate</button>
                 </div>
                 <div className='player-bio'>
-                    Lv <input className="level-input" type="number" onChange={this.handleSimpleStatChange} value={this.state.level} name="level"/> 
-                    <input type="text" className="string-input" name="gender" onChange={this.handleSimpleStatChange} value={this.state.gender} /> 
-                    <input type="text" className="string-input" name="race" onChange={this.handleSimpleStatChange} value={this.state.race} /> 
-                    <input type="text" className="string-input" name="class" onChange={this.handleSimpleStatChange} value={this.state.class} />
+                    Lv <input className="level-input" type="number" onChange={this.updateEnemy} value={this.props.enemy.level} name="level"/> 
+                    <input type="text" className="string-input" name="gender" onChange={this.updateEnemy} value={this.props.enemy.gender} /> 
+                    <input type="text" className="string-input" name="race" onChange={this.updateEnemy} value={this.props.enemy.race} /> 
+                    <input type="text" className="string-input" name="class" onChange={this.updateEnemy} value={this.props.enemy.class} />
                 </div>
                 <img src={CharacterImage} alt="Enemy" />
                 <div className='player-ability-stats'>
@@ -105,33 +45,33 @@ class EnemyCard extends React.Component {
                         <tbody>
                             <tr>
                                 <td>STR</td>
-                                <td><input className="stat-input" type="number" onChange={this.handleAbilityChange} value={this.state.str.val} name="str"/></td>
-                                <td>{this.state.str.mod}</td>
+                                <td><input className="stat-input" type="number" onChange={this.updateEnemy} value={this.props.enemy.strength} name="strength"/></td>
+                                <td>{this.calculateMod(this.props.enemy.strength)}</td>
                             </tr>
                             <tr>
                                 <td>DEX</td>
-                                <td><input className="stat-input" type="number" onChange={this.handleAbilityChange} value={this.state.dex.val} name="dex"/></td>
-                                <td>{this.state.dex.mod}</td>
+                                <td><input className="stat-input" type="number" onChange={this.updateEnemy} value={this.props.enemy.dexterity} name="dexterity"/></td>
+                                <td>{this.calculateMod(this.props.enemy.dexterity)}</td>
                             </tr>
                             <tr>
                                 <td>CON</td>
-                                <td><input className="stat-input" type="number" onChange={this.handleAbilityChange} value={this.state.con.val} name="con"/></td>
-                                <td>{this.state.con.mod}</td>
+                                <td><input className="stat-input" type="number" onChange={this.updateEnemy} value={this.props.enemy.constitution} name="constitution"/></td>
+                                <td>{this.calculateMod(this.props.enemy.constitution)}</td>
                             </tr>
                             <tr>
                                 <td>INT</td>
-                                <td><input className="stat-input" type="number" onChange={this.handleAbilityChange} value={this.state.int.val} name="int"/></td>
-                                <td>{this.state.int.mod}</td>
+                                <td><input className="stat-input" type="number" onChange={this.updateEnemy} value={this.props.enemy.intelligence} name="intelligence"/></td>
+                                <td>{this.calculateMod(this.props.enemy.intelligence)}</td>
                             </tr>
                             <tr>
                                 <td>WIS</td>
-                                <td><input className="stat-input" type="number" onChange={this.handleAbilityChange} value={this.state.wis.val} name="wis"/></td>
-                                <td>{this.state.wis.mod}</td>
+                                <td><input className="stat-input" type="number" onChange={this.updateEnemy} value={this.props.enemy.wisdom} name="wisdom"/></td>
+                                <td>{this.calculateMod(this.props.enemy.wisdom)}</td>
                             </tr>
                             <tr>
                                 <td>CHA</td>
-                                <td><input className="stat-input" type="number" onChange={this.handleAbilityChange} value={this.state.cha.val} name="cha"/></td>
-                                <td>{this.state.cha.mod}</td>
+                                <td><input className="stat-input" type="number" onChange={this.updateEnemy} value={this.props.enemy.charisma} name="charisma"/></td>
+                                <td>{this.calculateMod(this.props.enemy.charisma)}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -140,24 +80,24 @@ class EnemyCard extends React.Component {
                     <div>
                         <label>
                             Hit Points
-                            <input type="number" name="current" onChange={this.handleHPChange} value={this.state.hp.current} />
+                            <input type="number" name="hp_current" onChange={this.updateEnemy} value={this.props.enemy.hp_current} />
                         </label>
-                        <span className="hp-max">/ <input type="number" name="max" onChange={this.handleHPChange} value={this.state.hp.max} /></span>
+                        <span className="hp-max">/ <input type="number" name="hp_max" onChange={this.updateEnemy} value={this.props.enemy.hp_max} /></span>
                     </div>
                     <div>
                         <label>
                             AC
-                            <input type="number" name="ac" onChange={this.handleSimpleStatChange} value={this.state.ac} />
+                            <input type="number" name="ac" onChange={this.updateEnemy} value={this.props.enemy.ac} />
                         </label>
                     </div>
                     <div>
                         <label>
                             Initiative
-                            <input type="number" name="initiative" onChange={this.handleSimpleStatChange} value={this.state.initiative} />
+                            <input type="number" name="initiative" onChange={this.updateEnemy} value={this.props.enemy.initiative} />
                         </label>
                     </div>
                 </div>
-                <textarea className="enemy-notes" placeholder="Notes" rows="8" cols="30" value={this.state.notes} onChange={this.handleSimpleStatChange} name="notes" />
+                <textarea className="enemy-notes" placeholder="Notes" rows="8" cols="30" value={this.props.enemy.notes} onChange={this.updateEnemy} name="notes" />
             </div>
         );
     }
