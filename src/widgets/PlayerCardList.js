@@ -4,12 +4,6 @@ import {createCharacter} from '../dataRetriever.js';
 
 class PlayerCardList extends React.Component {
     
-    constructor(props) {
-        super(props);
-        this.state = {
-            characterList: this.props.characterList
-        }     
-    }
     addCharacter = () => {
         let newCharacter = {
             name: "",
@@ -25,57 +19,52 @@ class PlayerCardList extends React.Component {
             charisma: 0,
             hp_current: 0,
             hp_max: 0,
-            ac: 0
+            ac: 0,
+            initiative: 0
         };
         createCharacter(newCharacter).then((characterData) => {
-            console.log(characterData);
-            this.setState(currentState => ({
-                characterList: [...currentState.characterList,
-                    {
-                        _id: characterData._id,
-                        name: "",
-                        level: 0,
-                        gender: "",
-                        race: "",
-                        class: "",
-                        strength: 0,
-                        dexterity: 0,
-                        constitution: 0,
-                        intelligence: 0,
-                        wisdom: 0,
-                        charisma: 0,
-                        hp_current: 0,
-                        hp_max: 0,
-                        ac: 0
-                    }
-                ]
-            }));
+            this.props.updateCharacterList([
+                ...this.props.characterList,
+                {
+                    _id: characterData._id,
+                    name: "",
+                    level: 0,
+                    gender: "",
+                    race: "",
+                    class: "",
+                    strength: 0,
+                    dexterity: 0,
+                    constitution: 0,
+                    intelligence: 0,
+                    wisdom: 0,
+                    charisma: 0,
+                    hp_current: 0,
+                    hp_max: 0,
+                    ac: 0,
+                    initiative: 0
+                }
+            ]);
         });
         
     }
 
     removeCharacter = (id) => {
-        this.setState({
-            characterList: this.state.characterList.filter(character => character._id !== id)
-        }, () => {
-            this.props.updateParentCharacterList(this.state.characterList);
-        });
+        this.props.updateCharacterList(this.props.characterList.filter(character => character._id !== id));
     }
 
     updateCharacter = (updatedCharacter) => {
-        let newCharacterList = this.state.characterList.map(character => {
+        let newCharacterList = this.props.characterList.map(character => {
             if (character._id === updatedCharacter._id) {
                 return updatedCharacter;
             }
             return character;
         });
-        this.setState({characterList: newCharacterList});
-        this.props.updateParentCharacterList(newCharacterList);
+        this.props.updateCharacterList(newCharacterList);
     }
 
     render() {
-        let playerCardList = this.state.characterList.map((character, index)=>{
-            return <PlayerCard key={character._id} {...character} removeCharacter={this.removeCharacter} updateParentCharacter={this.updateCharacter} />;
+        let playerCardList = this.props.characterList.map((character, index)=>{
+            return <PlayerCard key={character._id} character={character} removeCharacter={this.removeCharacter} updateCharacter={this.updateCharacter} />;
         });
         return (
             <div>

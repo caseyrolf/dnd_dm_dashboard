@@ -4,8 +4,7 @@ import {createEnemy} from '../dataRetriever.js';
 import { cloneDeep } from 'lodash';
 
 class EnemyCardList extends React.Component {
-    let 
-    
+
     constructor(props) {
         super(props);
         this.state = {
@@ -28,6 +27,7 @@ class EnemyCardList extends React.Component {
             hp_current: 0,
             hp_max: 0,
             ac: 0,
+            initiative: 0,
             notes: ""
         };
         createEnemy(newEnemy).then((enemyData) => {
@@ -49,6 +49,7 @@ class EnemyCardList extends React.Component {
                         hp_current: 0,
                         hp_max: 0,
                         ac: 0,
+                        initiative: 0,
                         notes: ""
                     }
                 ]
@@ -101,6 +102,7 @@ class EnemyCardList extends React.Component {
                         hp_current: enemyData.hp_current,
                         hp_max: enemyData.hp_max,
                         ac: enemyData.ac,
+                        initiative: enemyData.initiative,
                         notes: enemyData.notes
                     }
                 ]

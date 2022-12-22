@@ -43,6 +43,10 @@ let characterSchema = new Schema({
   },
   ac: {
     type: Number
+  },
+  initiative: {
+    type: Number,
+    default: 0
   }
 }, {
     collection: 'characters'

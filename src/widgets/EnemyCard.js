@@ -19,7 +19,7 @@ class EnemyCard extends React.Component {
             cha: {val: this.props.charisma, mod: this.calculateMod(this.props.charisma)},
             hp: {current: this.props.hp_current, max: this.props.hp_max},
             ac: this.props.ac,
-            init: 0,
+            initiative: this.props.initiative,
             notes: this.props.notes
         };
     }
@@ -37,7 +37,6 @@ class EnemyCard extends React.Component {
             this.props.updateParentEnemy({_id: this.props._id, ...this.state});
             saveEnemy(this.props._id, this.buildEnemyObj());
         });
-        //save to db
     }
 
     handleHPChange = ({target: {name, value}}) => {
@@ -47,7 +46,6 @@ class EnemyCard extends React.Component {
             this.props.updateParentEnemy({_id: this.props._id, ...this.state});
             saveEnemy(this.props._id, this.buildEnemyObj());
         });
-        //save to db
     }
 
     handleSimpleStatChange = ({target: {name, value}}) => {
@@ -75,6 +73,7 @@ class EnemyCard extends React.Component {
             hp_current: this.state.hp.current,
             hp_max: this.state.hp.max,
             ac: this.state.ac,
+            initiative: this.state.initiative,
             notes: this.state.notes
         }
         return enemy;
@@ -154,7 +153,7 @@ class EnemyCard extends React.Component {
                     <div>
                         <label>
                             Initiative
-                            <input type="number" name="init" onChange={this.handleSimpleStatChange} value={this.state.init} />
+                            <input type="number" name="initiative" onChange={this.handleSimpleStatChange} value={this.state.initiative} />
                         </label>
                     </div>
                 </div>

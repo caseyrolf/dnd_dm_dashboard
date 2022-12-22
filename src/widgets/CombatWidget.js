@@ -36,7 +36,7 @@ class CombatWidget extends React.Component {
         let characterList = cloneDeep(this.props.characterList);
         let enemyList = cloneDeep(this.props.enemyList);
         let combinedList = characterList.concat(enemyList);
-        combinedList.sort((a,b) => parseInt(b.init) - parseInt(a.init));
+        combinedList.sort((a,b) => parseInt(b.initiative) - parseInt(a.initiative));
         let combatOrder = combinedList.map((character) => character.name);
         return combatOrder;
     }
@@ -119,6 +119,7 @@ class CombatWidget extends React.Component {
         return (
             <div>
                 <h2>Combat Order</h2>
+                <button className="combat-timer-button" onClick={this.props.resetInitiative}>Reset Initiative</button>
                 <div className="combat-change-turn-container">
                     <img className="up-arrow" src={UpArrow} onClick={() => {this.changeTurn(-1)}} />
                     <img className="down-arrow" src={DownArrow} onClick={() => {this.changeTurn(1)}} />

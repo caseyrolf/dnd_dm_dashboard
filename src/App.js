@@ -7,6 +7,7 @@ import EnemyCardList from './widgets/EnemyCardList';
 import NPCCardList from './widgets/NPCCardList';
 import QuestTracker from "./widgets/QuestTracker";
 import {retrieveCharacterList, retrieveEnemyList, retrieveNPCList, retrieveQuestList} from './dataRetriever.js';
+import { cloneDeep } from "lodash";
 
 function App() {
 
@@ -65,6 +66,28 @@ function App() {
        NPCList: newNPCList
     }));
   }
+
+  const resetInitiative = () => {
+    let characterList = appData.characterList.map((character) => {
+      return {
+        ...character,
+        initiative: 0
+      };
+    });
+
+    let enemyList = appData.enemyList.map((enemy) => {
+      return {
+        ...enemy,
+        initiative: 0
+      };
+    });
+
+    setAppData(current => ({
+      ...current,
+      characterList: characterList,
+      enemyList: enemyList
+    }));
+  }
   
   return (
     <div className="App">
@@ -79,16 +102,16 @@ function App() {
       <button className={`header-button ${activeTab==="Dice" ? "active" : ""}`} onClick={() => setActiveTab("Dice")}>Dice Roll</button>
       <div className="tab-container">
         <div className={`${activeTab==="Characters" ? "" : "hidden"}`}>
-          {appData.hasDataRetrieved && <PlayerCardList characterList={appData.characterList} updateParentCharacterList={updateCharacterList}/>}
+          {appData.hasDataRetrieved && <PlayerCardList characterList={appData.characterList} updateCharacterList={updateCharacterList}/>}
         </div>
         <div className={`${activeTab==="Enemies" ? "" : "hidden"}`}>
-          {appData.hasDataRetrieved && <EnemyCardList enemyList={appData.enemyList} updateParentEnemyList={updateEnemyList}/>}
+          {appData.hasDataRetrieved && <EnemyCardList enemyList={appData.enemyList} updateEnemyList={updateEnemyList}/>}
         </div>
         <div className={`${activeTab==="NPCs" ? "" : "hidden"}`}>
-          {appData.hasDataRetrieved && <NPCCardList NPCList={appData.NPCList} updateParentNPCList={updateNPCList}/>}
+          {appData.hasDataRetrieved && <NPCCardList NPCList={appData.NPCList} updateNPCList={updateNPCList}/>}
         </div>
         <div className={`${activeTab==="Combat" ? "" : "hidden"}`}>
-          {appData.hasDataRetrieved && <CombatWidget characterList={appData.characterList} enemyList={appData.enemyList} />}
+          {appData.hasDataRetrieved && <CombatWidget characterList={appData.characterList} enemyList={appData.enemyList} resetInitiative={resetInitiative} />}
         </div>
         <div className={`${activeTab==="Quests" ? "" : "hidden"}`}>
           {appData.hasDataRetrieved && <QuestTracker questList={appData.questList} />}

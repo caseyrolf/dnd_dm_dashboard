@@ -21,7 +21,7 @@ characterSchema.create(req.body, (error, data) => {
 router.get("/", (req, res) => {
 characterSchema.find((error, data) => {
 	if (error) {
-	return next(error);
+	res.send(error);
 	} else {
 	res.json(data);
 	}
@@ -36,7 +36,7 @@ router
 	characterSchema.findById(
 		req.params.id, (error, data) => {
 	if (error) {
-		return next(error);
+		res.send(error);
 	} else {
 		res.json(data);
 	}
@@ -53,7 +53,6 @@ router
 	(error, data) => {
 		if (error) {
 		return next(error);
-		console.log(error);
 		} else {
 		res.json(data);
 		console.log("Character updated successfully !");
