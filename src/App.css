@@ -290,3 +290,37 @@ input:checked + .slider:before {
 .slider.round:before {
   border-radius: 50%;
 }
+
+.damage-icon {
+  height: 35px;
+  width: 35px;
+  cursor: pointer;
+}
+
+.damage-modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 300px;
+  height: 100px;
+  background-color: whitesmoke;
+  border: 2px solid #000;
+  box-shadow: 24;
+  text-align: center;
+  vertical-align: middle;
+  padding: 5px;
+}
+.damage-modal input{
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  height: 20px;
+  width: 50px;
+}
+
+.damage-modal-footer {
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+}

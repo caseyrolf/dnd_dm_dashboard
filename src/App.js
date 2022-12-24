@@ -112,7 +112,7 @@ function App() {
           {appData.hasDataRetrieved && <NPCCardList NPCList={appData.NPCList} updateNPCList={updateNPCList}/>}
         </div>
         <div className={`${activeTab==="Combat" ? "" : "hidden"}`}>
-          {appData.hasDataRetrieved && <CombatWidget characterList={appData.characterList} enemyList={appData.enemyList} resetInitiative={resetInitiative} />}
+          {appData.hasDataRetrieved && <CombatWidget characterList={appData.characterList} enemyList={appData.enemyList} resetInitiative={resetInitiative} updateCharacterList={updateCharacterList} updateEnemyList={updateEnemyList} />}
         </div>
         <div className={`${activeTab==="Quests" ? "" : "hidden"}`}>
           {appData.hasDataRetrieved && <QuestTracker questList={appData.questList} />}

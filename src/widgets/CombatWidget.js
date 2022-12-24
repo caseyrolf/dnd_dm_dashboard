@@ -2,6 +2,8 @@ import React from 'react';
 import UpArrow from '../up-arrow.png';
 import RightArrow from '../right-arrow.png';
 import DownArrow from '../down-arrow.png';
+import DamageIcon from '../damage-icon.png';
+import { Modal, Box } from '@mui/material';
 import { cloneDeep } from 'lodash';
 
 class CombatWidget extends React.Component {
@@ -15,6 +17,9 @@ class CombatWidget extends React.Component {
             combatTimerStr: "00:00",
             currentTurnTimer: 0,
             currentTurnTimerStr: "00:00",
+            isModalOpen: false,
+            damageValue: 0,
+            characterInContext: 0
         }     
     }
 
@@ -30,7 +35,9 @@ class CombatWidget extends React.Component {
                 "name": character.name,
                 "hp_current": character.hp_current,
                 "hp_max": character.hp_max,
-                "active": character.active
+                "ac": character.ac,
+                "active": character.active,
+                "_id": character._id
             });
         });
         return combatOrder;
@@ -101,6 +108,70 @@ class CombatWidget extends React.Component {
         clearInterval(this.combatTimerInterval);
     }
 
+    openDamageModal = (id) => {
+        this.setState({
+            isModalOpen: true,
+            characterInContext: id
+        });
+    }
+
+    handleModalClose = () => {
+        this.setState({
+            isModalOpen: false,
+            characterInContext: 0
+        });
+    }
+
+    confirmModal = () => {
+        if(this.state.damageValue <=0) {
+            this.handleModalClose();
+        }
+        let characterFound = false;
+        let newCharacterList = this.props.characterList.map(character => {
+            if (character._id === this.state.characterInContext) {
+                let newCharacter = cloneDeep(character);
+                newCharacter.hp_current = newCharacter.hp_current - this.state.damageValue;
+                if(newCharacter.hp_current < 0) {
+                    newCharacter.hp_current = 0;
+                }
+                characterFound = true;
+                return newCharacter;
+            }
+            return character;
+        });
+        if(!characterFound) {
+            let newEnemyList = this.props.enemyList.map(enemy => {
+                if (enemy._id === this.state.characterInContext) {
+                    let newEnemy = cloneDeep(enemy);
+                    newEnemy.hp_current = newEnemy.hp_current - this.state.damageValue;
+                    if(newEnemy.hp_current < 0) {
+                        newEnemy.hp_current = 0;
+                    }
+                    characterFound = true;
+                    return newEnemy;
+                }
+                return enemy;
+            });
+            this.props.updateEnemyList(newEnemyList);
+            console.log(newEnemyList);
+        } else {
+            this.props.updateCharacterList(newCharacterList);
+            console.log(newCharacterList);
+        }
+
+        this.handleModalClose();
+    }
+
+    updateDamageValue = (event) => {
+        this.setState({
+            damageValue: parseInt(event.target.value)
+        });
+    }
+
+    getCharacterById = (id) => {
+        
+    }
+
     render() {
         this.combatOrder = this.generateCombatOrder();
         let orderRows = this.combatOrder.map((character, index)=>{
@@ -108,7 +179,9 @@ class CombatWidget extends React.Component {
                 <tr key={index}>
                     <td className="current-turn-column">{this.state.currentTurnIdx === index && <img className="right-arrow" src={RightArrow} />}</td>
                     <td className="combat-name-column">{character.name}</td>
+                    <td className="combat-ac-column">{character.ac}</td>
                     <td className="combat-health-column">{character.hp_current} / {character.hp_max}</td>
+                    <td className="combat-damage-column"><img className="damage-icon" src={DamageIcon} onClick={() => {this.openDamageModal(character._id)}} /></td>
                     <td className="combat-notes-column"><input type="text" placeholder="Combat Notes" /></td>
                 </tr>
             );
@@ -131,6 +204,22 @@ class CombatWidget extends React.Component {
                 <button className="combat-timer-button" onClick={this.stopCombatTimer}>Stop Combat Timer</button>
                 <div className="combat-timer"><span>Combat Timer: </span>{this.state.combatTimerStr}</div>
                 <div className="combat-timer"><span>Current Turn: </span>{this.state.currentTurnTimerStr}</div>
+                <div>
+                    <Modal
+                        open={this.state.isModalOpen}
+                        onClose={this.handleModalClose}
+                    >
+                        <Box className="damage-modal">
+                            <span>
+                                Amount of damage: <input type="number" name="inputDamage" value={this.state.damageValue} onChange={this.updateDamageValue}></input>
+                            </span>
+                            <div className="damage-modal-footer">
+                                <button className="damage-modal-confirm-button" onClick={this.confirmModal}>Confirm</button>
+                                <button className="damage-modal-cancel-button" onClick={this.handleModalClose}>Cancel</button>
+                            </div>
+                        </Box>
+                    </Modal>
+                </div>
             </div>
         );
     }
