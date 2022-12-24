@@ -47,6 +47,10 @@ let characterSchema = new Schema({
   initiative: {
     type: Number,
     default: 0
+  },
+  active: {
+    type: Boolean,
+    default: true
   }
 }, {
     collection: 'characters'

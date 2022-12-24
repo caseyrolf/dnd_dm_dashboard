@@ -19,6 +19,15 @@ class PlayerCard extends React.Component {
         saveCharacter(this.props.character._id, characterObj);
     }
 
+    updateCharacterActive = (event) => {
+        let characterObj = {
+            ...this.props.character,
+            active: event.target.checked
+        }
+        this.props.updateCharacter(characterObj);
+        saveCharacter(this.props.character._id, characterObj);
+    }
+
     deleteCharacterCard = () => {
         deleteCharacter(this.props.character._id).then(() => {
             this.props.removeCharacter(this.props.character._id);
@@ -32,6 +41,11 @@ class PlayerCard extends React.Component {
                     <input className="name-input" type="text" placeholder="Name" onChange={this.updateCharacter} value={this.props.character.name} name="name"/>
                     <button className='delete-button' onClick={this.deleteCharacterCard}>X</button>
                 </div>
+                <label className="switch">
+                    Active
+                    <input type="checkbox" checked={this.props.character.active} name="active" onChange={this.updateCharacterActive} />
+                    <span className="slider round"></span>
+                </label>
                 <div className='player-bio'>
                     Lv <input className="level-input" type="number" onChange={this.updateCharacter} value={this.props.character.level} name="level"/> 
                     <input type="text" className="string-input" placeholder="Gender" name="gender" onChange={this.updateCharacter} value={this.props.character.gender} /> 

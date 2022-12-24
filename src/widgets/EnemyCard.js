@@ -19,6 +19,15 @@ class EnemyCard extends React.Component {
         saveEnemy(this.props.enemy._id, enemyObj);
     }
 
+    updateEnemyActive = (event) => {
+        let enemyObj = {
+            ...this.props.enemy,
+            active: event.target.checked
+        }
+        this.props.updateEnemy(enemyObj);
+        saveEnemy(this.props.enemy._id, enemyObj);
+    }
+
     deleteEnemyCard = () => {
         deleteEnemy(this.props.enemy._id).then(() => {
             this.props.removeEnemy(this.props.enemy._id);
@@ -33,6 +42,11 @@ class EnemyCard extends React.Component {
                     <button className='delete-button' onClick={this.deleteEnemyCard}>X</button>
                     <button className='delete-button' onClick={() => {this.props.duplicateEnemy(this.props.enemy._id)}} >Duplicate</button>
                 </div>
+                <label className="switch">
+                    Active
+                    <input type="checkbox" checked={this.props.enemy.active} name="active" onChange={this.updateEnemyActive} />
+                    <span className="slider round"></span>
+                </label>
                 <div className='player-bio'>
                     Lv <input className="level-input" type="number" onChange={this.updateEnemy} value={this.props.enemy.level} name="level"/> 
                     <input type="text" className="string-input" name="gender" onChange={this.updateEnemy} value={this.props.enemy.gender} /> 

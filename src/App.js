@@ -7,7 +7,6 @@ import EnemyCardList from './widgets/EnemyCardList';
 import NPCCardList from './widgets/NPCCardList';
 import QuestTracker from "./widgets/QuestTracker";
 import {retrieveCharacterList, retrieveEnemyList, retrieveNPCList, retrieveQuestList} from './dataRetriever.js';
-import { cloneDeep } from "lodash";
 
 function App() {
 

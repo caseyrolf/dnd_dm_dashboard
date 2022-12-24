@@ -50,6 +50,10 @@ let enemySchema = new Schema({
   },
   notes: {
     type: String
+  },
+  active: {
+    type: Boolean,
+    default: true
   }
 }, {
     collection: 'enemies'

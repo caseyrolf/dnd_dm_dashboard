@@ -5,11 +5,10 @@ import DownArrow from '../down-arrow.png';
 import { cloneDeep } from 'lodash';
 
 class CombatWidget extends React.Component {
-    
+
     constructor(props) {
         super(props);
         this.state = {
-            combatOrder: this.generateCombatOrder(),
             characterNotes: [],
             currentTurnIdx: 0,
             combatTimer: 0,
@@ -19,25 +18,21 @@ class CombatWidget extends React.Component {
         }     
     }
 
-    componentDidUpdate() {
-        this.updateCombatOrder();
-    };
-
-    updateCombatOrder = () => {
-        let combatOrder = this.generateCombatOrder();
-        if(!this.arrayEquals(combatOrder, this.state.combatOrder)) {
-            this.setState({
-                combatOrder: combatOrder
-            });
-        }
-    }
+    combatOrder = [];
 
     generateCombatOrder = () => {
-        let characterList = cloneDeep(this.props.characterList);
-        let enemyList = cloneDeep(this.props.enemyList);
+        let characterList = this.props.characterList.filter(character => character.active === true);
+        let enemyList = this.props.enemyList.filter(enemy => enemy.active === true);
         let combinedList = characterList.concat(enemyList);
         combinedList.sort((a,b) => parseInt(b.initiative) - parseInt(a.initiative));
-        let combatOrder = combinedList.map((character) => character.name);
+        let combatOrder = combinedList.map((character) => {
+            return({
+                "name": character.name,
+                "hp_current": character.hp_current,
+                "hp_max": character.hp_max,
+                "active": character.active
+            });
+        });
         return combatOrder;
     }
 
@@ -51,8 +46,8 @@ class CombatWidget extends React.Component {
     changeTurn = (orderShift) => {
         let newTurnIdx = this.state.currentTurnIdx + orderShift;
         if(newTurnIdx < 0) {
-            newTurnIdx = this.state.combatOrder.length-1;
-        } else if (newTurnIdx >= this.state.combatOrder.length) {
+            newTurnIdx = this.combatOrder.length-1;
+        } else if (newTurnIdx >= this.combatOrder.length) {
             newTurnIdx = 0;
         }
         this.setState({
@@ -107,11 +102,13 @@ class CombatWidget extends React.Component {
     }
 
     render() {
-        let orderRows = this.state.combatOrder.map((name, index)=>{
+        this.combatOrder = this.generateCombatOrder();
+        let orderRows = this.combatOrder.map((character, index)=>{
             return (
                 <tr key={index}>
                     <td className="current-turn-column">{this.state.currentTurnIdx === index && <img className="right-arrow" src={RightArrow} />}</td>
-                    <td className="combat-name-column">{name}</td>
+                    <td className="combat-name-column">{character.name}</td>
+                    <td className="combat-health-column">{character.hp_current} / {character.hp_max}</td>
                     <td className="combat-notes-column"><input type="text" placeholder="Combat Notes" /></td>
                 </tr>
             );

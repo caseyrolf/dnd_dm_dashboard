@@ -20,7 +20,8 @@ class PlayerCardList extends React.Component {
             hp_current: 0,
             hp_max: 0,
             ac: 0,
-            initiative: 0
+            initiative: 0,
+            active: true
         };
         createCharacter(newCharacter).then((characterData) => {
             this.props.updateCharacterList([
@@ -41,7 +42,8 @@ class PlayerCardList extends React.Component {
                     hp_current: 0,
                     hp_max: 0,
                     ac: 0,
-                    initiative: 0
+                    initiative: 0,
+                    active: true
                 }
             ]);
         });

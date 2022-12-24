@@ -22,7 +22,8 @@ class EnemyCardList extends React.Component {
             hp_max: 0,
             ac: 0,
             initiative: 0,
-            notes: ""
+            notes: "",
+            active: true
         };
         createEnemy(newEnemy).then((enemyData) => {
             this.props.updateEnemyList([
@@ -44,7 +45,8 @@ class EnemyCardList extends React.Component {
                     hp_max: 0,
                     ac: 0,
                     initiative: 0,
-                    notes: ""
+                    notes: "",
+                    active: true
                 }
             ]);
         });
@@ -90,7 +92,8 @@ class EnemyCardList extends React.Component {
                         hp_max: enemyData.hp_max,
                         ac: enemyData.ac,
                         initiative: enemyData.initiative,
-                        notes: enemyData.notes
+                        notes: enemyData.notes,
+                        active: enemyData.active
                     }
                 ]
             );
